@@ -65,8 +65,12 @@
                                 </li>
                             @endif
                         @else
+                                
+                            <li>
+                                <a class="btn btn-success border border-white my-1 ms-2" href="{{ route('home') }}">{{ __('Dashboard') }}</a>
+                            </li>
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 

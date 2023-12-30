@@ -16,15 +16,17 @@ return new class extends Migration
             $table->timestamps();
             $table->string('product_name');
             $table->unsignedBigInteger('category_id');
-            $table->string('product_description');
+            $table->unsignedBigInteger('seller_id');
+            $table->text('product_description');
             $table->float('product_price');
             $table->string('product_color');
-            $table->string('product_brand');
-            $table->string('product_model');
+            $table->string('product_brand')->nullable();
+            $table->string('product_model')->nullable();
             $table->string('origin_country');
             $table->integer('stock');
             $table->string('product_image');
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('seller_id')->references('id')->on('users');
         });
     }
 

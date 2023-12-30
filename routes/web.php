@@ -1,13 +1,15 @@
 <?php
 
+use App\Admin\Controllers\CategoryController;
 use App\Admin\Controllers\UserController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\SellerController;
 use App\Http\Controllers\User\UsersController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\OrderController;
-use App\Http\Controllers\User\ProductController;
-use App\Http\Controllers\User\ProductDetailController;
+use App\Http\Controllers\Seller\ProductController;
+use App\Http\Controllers\Seller\ProductVariationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +30,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
 Route::get('/', function () {
@@ -36,27 +38,42 @@ Route::get('/', function () {
 });
 
 $router->resource('demo/users', UserController::class);
+$router->resource('/categories', CategoryController::class);
+
+
 
 //User Routes
-Route::get('/dashboard',[UsersController::class, 'index'])->name('userDashboard');
+Route::get('/dashboard',[UsersController::class, 'index'])->name('user_dashboard');
+Route::get('/profile',[ProfileController::class, 'userProfile'])->name('user_pofile');
+Route::get('/products',[UsersController::class, 'products'])->name('user_products');
+Route::get('/get-product-details/{id}',[UsersController::class, 'productDetails'])->name('user_product_details');
 
-//products
-Route::get('/products',[ProductController::class, 'index'])->name('Products')->name('User Products');
-Route::get('/get-product-details',[ProductController::class, 'index'])->name('User Product Details');
+Route::get('/cart',[CartController::class, 'viewCart'])->name('user_cart');
+Route::get('/add-to-cart/{id}',[CartController::class, 'addToCart'])->name('add_to_cart');
+Route::post('/update-cart',[CartController::class, 'updateCart'])->name('update_cart');
+Route::get('/delete-cart',[CartController::class, 'deleteCart'])->name('delete_cart');
 
-//orders
-Route::get('/orders',[OrderController::class, 'index'])->name('Orders')->name('USer Orders');
-Route::get('/cart',[CartController::class, 'index'])->name('Cart')->name('User Cart');
-Route::get('/profile',[ProfileController::class, 'index'])->name('Profile')->name('User Profile');
+
+Route::get('/orders',[OrderController::class, 'index'])->name('Orders')->name('user_orders');
 
 //Seller Routes
-Route::get('/seller-dashboard',[SellerController::class, 'dashboard'])->name('Seller Dashboard');
-Route::get('/seller-products',[SellerController::class, 'products'])->name('Seller Products');
-Route::get('/user-orders',[SellerController::class, 'orders'])->name('Users Orders');
-Route::get('/seller-profile',[SellerController::class, 'profile'])->name('seller Profile');
-Route::get('/seller-add-product',[SellerController::class, 'addProduct'])->name('Add Products');
-Route::get('/seller-get-product',[SellerController::class, 'getProduct'])->name('View Products');
-Route::get('/seller-edit-product',[SellerController::class, 'editProduct'])->name('Edit Products');
-Route::get('/seller-delete-product',[SellerController::class, 'deleteProduct'])->name('Delete Products');
+Route::prefix('seller')->group(function () {
+Route::get('/',[SellerController::class, 'dashboard'])->name('seller_dashboard');
+Route::get('/products',[SellerController::class, 'products'])->name('seller_products');
+Route::get('/orders',[SellerController::class, 'orders'])->name('users_orders');
+Route::get('/profile',[ProfileController::class, 'userProfile'])->name('seller_profile');
+Route::get('/add-product',[SellerController::class, 'addProduct'])->name('Add Products');
+});
+
+//product Routes
+Route::prefix('product')->group(function () {
+Route::post('/add-product',[ProductController::class, 'addProduct'])->name('add_product_details');
+Route::get('/edit-product/{id}',[SellerController::class, 'editProduct'])->name('edit_products');
+Route::post('/update-product',[ProductController::class, 'editProduct'])->name('Add Update Details');
+Route::get('/get-product-details/{id}',[ProductController::class, 'getProductDetails'])->name('view_products');
+Route::post('/add-product-variation',[ProductVariationController::class, 'addProductVariation'])->name('add_products_variations');
+Route::post('/edit-product-variation',[ProductVariationController::class, 'editProductVariation'])->name('edit_products_variations');
+Route::get('/delete-product',[ProductController::class, 'deleteProduct'])->name('delete_products');
+});
 
 //Admin Routes

@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Open Admin',
+    'name' => 'Computer Components Hub',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>OA</b>',
+    'logo-mini' => '<b>CHUB</b>',
 
     /*
     |--------------------------------------------------------------------------

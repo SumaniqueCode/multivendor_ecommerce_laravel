@@ -18,7 +18,7 @@ return new class extends Migration
             $table->float('product_price');
             $table->string('product_color');
             $table->integer('stock');
-            $table->string('image');
+            $table->string('product_image');
             $table->foreign('product_id')->references('id')->on('products');
         });
     }

@@ -33,7 +33,7 @@
     <div class="bg-gradient-to-l from-purple-700 via-blue-600 to-blue-400">
       <div class="container mx-auto relative flex items-center p-2 text-lg">
         <div class="flex items-center mx-8">
-          <a href="/seller-dashboard" class="logo"><img class="w-12" src={{"/Images/System/logo.png"}} alt="Logo" /></a>
+          <a href="/seller" class="logo"><img class="w-12" src={{"/Images/System/logo.png"}} alt="Logo" /></a>
         </div>
         <div class="border rounded bg-white">
           <form class="form" action="">
@@ -46,29 +46,28 @@
         </div>
         {{-- middle navbar starts --}}
         <div class="hidden lg:flex space-x-4 mx-4 gap-1">
-          <a href="/seller-dashboard"
+          <a href="/seller"
             class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Home</a>
-          <a href="/seller-product" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Products</a>
-          <a href="/user-orders" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Orders</a>
+          <a href="/seller/products" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Products</a>
+          <a href="/seller/orders" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Orders</a>
         </div>
         <div class="hidden lg:flex space-x-4 ms-auto me-10">
-          <a href="/seller-profile" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 my-auto p-1 rounded">Profile</a>
+          <a href="/seller/profile" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 my-auto p-1 rounded">Profile</a>
         </div>
         {{-- middle navbar ends --}}
 
         {{-- navbar toggle --}}
         <div class="flex items-center lg:hidden relative ms-auto z-50 lg:me-10">
-          <a href="/profile" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Profile</a>
+          <a href="/seller/profile" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Profile</a>
           <button id="toggleDropdown" class="text-white ml-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 17 14" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
             </svg>
           </button>
           <div id="dropdownMenu" class="absolute w-72 top-full right-0 mt-4 bg-blue-600 border border-white p-2 rounded-lg shadow-md">
-            <a href="/dashboard" class="block text-white hover:bg-white hover:text-black hover:font-bold p-2 rounded">Home </a>
-            <a href="/cart" class="block text-white hover:bg-white hover:text-black hover:font-bold p-2 rounded">Cart</a>
-            <a href="/products" class="block border-t-2 text-white hover:bg-white hover:text-black hover:font-bold p-2 rounded">All Products</a>
-            <a href="/orders" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">My Orders</a>
+            <a href="/seller/dashboard" class="block text-white hover:bg-white hover:text-black hover:font-bold p-2 rounded">Home </a>
+            <a href="/seller/products" class="block border-t-2 text-white hover:bg-white hover:text-black hover:font-bold p-2 rounded">Products</a>
+            <a href="/seller/orders" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Orders</a>
           </div>
         </div>
         {{-- navbar toggle ends --}}

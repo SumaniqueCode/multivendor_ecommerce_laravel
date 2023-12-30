@@ -29,6 +29,11 @@
 
 <body class="">
   <section class="navbar">
+    <?php 
+      use App\Models\User\Cart;
+
+      $carts = Cart::where('user_id', auth()->user()->id)->get();
+    ?>
     {{-- navbar starts from here --}}
     <div class="bg-gradient-to-l from-purple-700 via-blue-600 to-blue-400">
       <div class="container mx-auto relative flex items-center p-2 text-lg">
@@ -54,64 +59,56 @@
         <div class="hidden lg:flex space-x-4 ms-auto me-10">
           <a href="/profile" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 my-auto p-1 rounded">Profile</a>
           <a href="/cart" id="cart" class="text-white mx-2 p-1 rounded">
-            <span class="bg-red-500 text-sm font-bold px-1 border border-1 border-white rounded-full absolute mini_cart_icon_number">2</span>
+            <span class="bg-red-500 text-sm font-bold px-1 border border-1 border-white rounded-full absolute mini_cart_icon_number">{{$carts->count()}}</span>
             <img src="{{"/Images/System/cartIcon.png"}}" alt="" class="w-12 p-2 mx-2 bg-white border-2 border-white rounded-2xl">
           </a>
           
           {{-- mini cart starts --}}
-          <div id="cartdesc" class="cartdesc absolute right-16 top-12 border-4 border-pink-500 rounded-xl bg-white w-1/3">
+          <div id="cartdesc" class="cartdesc absolute right-16 top-12 border-4 border-gray-500 rounded-xl bg-white w-1/3">
             <div class="bg-indigo-500 text-white font-bold p-2 flex justify-center border rounded-2xl">
               <h3 class="mx-auto">CART DETAILS</h3>
             </div>
+            @if ($carts)
             <table class="table table-dark">
               <tbody>
+                @foreach ($carts as $cart)
+                  
+                <tr>
+                  <td rowspan="2">
+                    <img class="w-2/3 rounded" src={{asset($cart->product['product_image'])}} alt="">
+                  </td>
+                  <td>{{$cart->product['product_name']}}</td>
+                  <td class="flex gap-1">
+                    <button class="px-2 py-1 bg-green-500 text-white font-semibold rounded-lg">add</button> <button class="px-2 py-1 bg-red-500 text-white font-semibold rounded-lg">delete</button>
+                  </td>
+                </tr>
+                <tr class="border-b-2 border-gray-500">
+                  <td>Quantity:{{$cart->quantity}}</td>
+                  <td colspan="">
+                    Rs. {{ $cart->product['product_price'] * $cart->quantity }}
+                  </td>
+                </tr>
 
-              <tr>
-                <td rowspan="2">
-                  <img class="w-2/3 rounded" src={{"/Images/System/companyBanner.jpg"}} alt="">
-                </td>
-                <td>
-                  Ryzen 9 5950X
-                </td>
-                <td class="flex gap-1">
-                  <button class="px-2 py-1 bg-green-500 text-white font-semibold rounded-lg">add</button> <button class="px-2 py-1 bg-red-500 text-white font-semibold rounded-lg">delete</button>
-                </td>
-              </tr>
-              <tr class="border-b-2 border-gray-500">
-                <td>Quantity:1</td>
-                <td colspan="">
-                  Rs. 83000
-                </td>
-              </tr>
-              <tr>
-                <td rowspan="2">
-                  <img class="w-2/3 rounded" src={{"/Images/System/RTX-40.jpg"}} alt="">
-                </td>
-                <td>
-                  GeForce RTX 4090
-                </td>
-                <td class="flex gap-1">
-                  <button class="px-2 py-1 bg-green-500 text-white font-semibold rounded-lg">add</button> <button class="px-2 py-1 bg-red-500 text-white font-semibold rounded-lg">delete</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Quantity: 1</td>
-                <td colspan="">
-                  Rs. 300000
-                </td>
-              </tr>
-
-
+              @endforeach
               <tr class="border-b-2 border-gray-500 border-t-2">
                 <td colspan="" class="text-center">Total:</td>
-                <td>Quantity: 2</td>
-                <td>Rs. 383000</td>
+                <td>Quantity: {{$carts->count()}}</td>
+                <td>
+                  Rs. {{ $carts->sum(function ($cart) {
+                        return $cart->product['product_price'] * $cart->quantity;
+                      }) }}
+                 </td>
               </tr>
             </tbody>
             </table>
             <div class="my-2 mx-4">
               <a href="/checkout"><button class="bg-green-700 border rounded px-2 py-1 text-white text-lg font-bold">CHECK OUT</button></a>
             </div>
+
+            @else
+            <p class="font-medium py-6 text-lg">Your Cart is Empty.</p>
+                                      
+            @endif
           </div>
           {{-- mini cart ends --}}
         </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\User;
+namespace App\Models\Seller;
 
 use App\Models\Admin\Category;
 use App\Models\DiscountVoucher;
@@ -16,12 +16,15 @@ class Product extends Model
     [
         'product_name',
         'category_id',
+        'product_description',
         'product_price',
         'product_color',
         'product_brand',
+        'product_model',
         'stock',
-        'description',
-        'image',
+        'origin_country',
+        'product_image',
+        'seller_id',
     ];
 
     public function category(){

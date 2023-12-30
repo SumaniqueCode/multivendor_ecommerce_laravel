@@ -2,7 +2,7 @@
 
 namespace App\Models\Admin;
 
-use App\Models\User\Product;
+use App\Models\Seller\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

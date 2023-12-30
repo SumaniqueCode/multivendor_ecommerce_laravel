@@ -8,59 +8,43 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function addToCart($id)
     {
-        return view('User.cart');
+        $cart = Cart::where('user_id', auth()->user()->id)->first();
+        if($cart->product_id == $id)
+        {
+            $cart->increment('quantity');
+            return back()->with('success', 'cart added successfully');
+        }
+        else{
+        $new_cart = New Cart;
+        $new_cart->create([
+            'user_id' => auth()->user()->id,
+            'product_id'=>$id,
+            'quantity'=>1,
+        ]);
+
+        return back()->with('success', 'cart added successfully');
+    }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function updateCart(Request $request)
     {
-        //
+        $cart = Cart::where('id', $request->id)->first();
+        $cart->update(['quantity' => $request->quantity]);
+        return back()->with('success', 'cart updated successfully');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function removeCart($id)
     {
-        //
+        $cart = Cart::where('id', $id)->first();
+        $cart->delete();
+
+        return back()->with('success', 'cart deleted successfully');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cart $cart)
-    {
-        //
+    public function viewCart(){
+        $carts=Cart::where('user_id',auth()->user()->id)->get();
+        return view('User.cart')->with('carts',$carts);
     }
 }
