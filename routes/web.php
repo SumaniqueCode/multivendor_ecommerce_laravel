@@ -4,7 +4,6 @@ use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Seller\SellerController;
-use App\Http\Controllers\User\UsersController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\Seller\ProductController;
