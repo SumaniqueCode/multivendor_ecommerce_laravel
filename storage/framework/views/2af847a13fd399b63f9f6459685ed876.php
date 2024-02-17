@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+        }
+        .productImage {
+            width: 200px;
+            height: 150px;
+            border: 1px solid white;
+            border-radius: 20px;
+        }
+        .name{
+            color:white;
+            background: #3b82f6;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-size: larger;
+            font-weight: bold;
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Hello, <?php echo e(Auth()->user()->name, false); ?>,</h3>
+    <h3>Thank you for your order. Here are the details:</h3>
+
+    <ul>
+        <li>
+            <span class="name"><?php echo e($productVariation->product->name, false); ?></span>
+            
+            <p class="quantity">Quantity: <?php echo e($cart->quantity, false); ?> </p>
+            <p class="price"> Price per product: <?php echo e($productVariation->price, false); ?> </p>
+            <p class="total">Total: <?php echo e($cart->quantity * $productVariation->price, false); ?></p>
+        </li>
+    </ul>
+
+    
+    <p class="greet">Thank you for shopping with us!</p>
+</body>
+
+</html>
+<?php /**PATH D:\Visual Studio\VS Code Projects\Personal\Laravel\multi_vendor_ecommerce\resources\views/Mails/OrderMails/PurchaseMail.blade.php ENDPATH**/ ?>
