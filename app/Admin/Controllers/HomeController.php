@@ -16,20 +16,11 @@ class HomeController extends Controller
         return $content
             ->css_file(Admin::asset("open-admin/css/pages/dashboard.css"))
             ->title('Dashboard')
-            ->description('Description...')
-            ->row(Dashboard::title())
+            ->description('Application Stats')
             ->row(function (Row $row) {
 
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::environment());
-                });
-
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::extensions());
-                });
-
-                $row->column(4, function (Column $column) {
-                    $column->append(Dashboard::dependencies());
+                $row->column(12, function (Column $column) {
+                    $column->append(Dashboard::charts());
                 });
             });
     }

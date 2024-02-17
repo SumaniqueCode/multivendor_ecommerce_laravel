@@ -14,19 +14,17 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('product_name');
+            $table->string('name');
             $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('seller_id');
-            $table->text('product_description');
-            $table->float('product_price');
-            $table->string('product_color');
-            $table->string('product_brand')->nullable();
-            $table->string('product_model')->nullable();
-            $table->string('origin_country');
-            $table->integer('stock');
-            $table->string('product_image');
+            $table->unsignedBigInteger('user_id');
+            $table->text('description');
+            $table->string('brand')->nullable();
+            $table->string('model')->nullable();
+            $table->enum('status', ['Active', 'Inactive'])->default('Active');
+            $table->string('origin');
             $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('seller_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->softDeletes();
         });
     }
 

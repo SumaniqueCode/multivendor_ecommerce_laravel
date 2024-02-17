@@ -11,76 +11,90 @@ class ProductVariationController extends Controller
 {
     public function productValidator(array $productData){
         return Validator::make($productData,[
-            'product_price'=>'required|numeric|min:0.1',
-            'product_color'=>'required|string|min:3|max:50',
+            'price'=>'required|numeric|min:0.1',
+            'color'=>'nullable|string|min:3|max:50',
             'stock'=>'required|integer|min:1',
-            'product_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'size'=> 'nullable|string|min:1|max:16',
+            'image.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     }
-
 
     public function addProductVariation(Request $request){
         $productData = $request->all();
         $validator = $this->productValidator($productData);
+        $imageArray = [];
         if ($validator->fails()) {
             return back()->withErrors($validator);
         } else {
-            if (isset($productData['product_image'])) {
-                $image = $productData['product_image'];
+            if (isset($productData['image'])) {
+                $image = $productData['image'];
                 $image_new_name = time() . $image->getClientOriginalName();
                 $image->move('Images/Products/', $image_new_name);
                 $imagePath = 'Images/Products/' . $image_new_name;
+                $imageArray[] =  $imagePath;    
             } else {
-                $imagePath = 'Images/Products/default.jpg';
+                $imageArray[] = 'Images/Products/default-product-image.png';
             }
             $product= productVariation::create([
                 'product_id' => $request->product_id,
-                'product_price'=>$request->product_price,
-                'product_color'=>$request->product_color,
+                'price'=>$request->price,
+                'color'=>$request->color,
                 'stock'=>$request->stock,
-                'product_image' =>$imagePath,
+                'size'=>$request->size,
+                'image' => json_encode($imageArray),
             ]);
-            return redirect('product/get-product-details/' . $product->product_id)->with('success', 'Product Variations Added Successfully');
+            return back()->with(['success','Product Variations Added Successfully','product', $product]);
             }
     }
-
-    public function getProductVariation($id)
+    public function getProductVariation(Request $request)
     {
+        $productVariationData = ProductVariation::where('id', $request->id)->first();
+        $productVariation=[
+        'product_id' => $productVariationData->product_id,
+                'price'=>$productVariationData->price,
+                'color'=>$productVariationData->color,
+                'stock'=>$productVariationData->stock,
+                'size'=>$productVariationData->size,
+                'image' => json_decode($productVariationData->image),
+        ];
+        return response()->json(['product'=>$productVariation]);
+    }
+    public function editProductVariation ($id){
         $productVariation = ProductVariation::where('id', $id)->first();
-        return back($productVariation);
+        return view('Seller.editProductVariation', compact('productVariation'));
     }
 
-    public function editProductVariation(Request $request, $id){
+    public function updateProductVariation(Request $request, $id){
         $productData = $request->all();
         $validator = $this->productValidator($productData);
+        $product= productVariation::where('id', $id)->first();
+        $imageArray = [];
         if ($validator->fails()) {
             return back()->withErrors($validator);
         } else {
-            if (isset($productData['product_image'])) {
-                $image = $productData['product_image'];
-                $image_new_name = time() . $image->getClientOriginalName();
-                $image->move('Images/Products/', $image_new_name);
-                $imagePath = 'Images/Products/' . $image_new_name;
+            if (isset($productData['image'])) {
+                    $image = $productData['image'];
+                    $image_new_name = time() . $image->getClientOriginalName();
+                    $image->move('Images/Products/', $image_new_name);
+                    $imagePath = 'Images/Products/' . $image_new_name;
+                    $imageArray[] =  $imagePath;    
             } else {
-                $imagePath = 'Images/Products/default.jpg';
+                $imageArray = json_decode($product->image);
             }
-            $product= ProductVariation::where('id', $id)->first();
-            $product::update([
-                'product_id' => $request->product_id,
-                'product_price'=>$request->product_price,
-                'product_color'=>$request->product_color,
+            $product->update([
+                'price'=>$request->price,
+                'color'=>$request->color,
                 'stock'=>$request->stock,
-                'product_image' =>$imagePath,
+                'size'=>$request->size,
+                'image' => json_encode($imageArray),
             ]);
-            return redirect('product/get-product-details/' . $product->product_id)->with('success', 'Product Variation Updated Successfully');
+            return redirect('product/get-product-details/'.$product->product->id)->with(['success','Product Variations Added Successfully']);
             }
     }
-
     public function deleteProductVariation($id){
         $productVariation = ProductVariation::where('id', $id)->first();
         $productVariation->delete();
-
-        return redirect()->with('success', 'Product Variation Deleted successfully');
+        return back()->with(['product'=>$productVariation,'success'=>'Product Variation Deleted successfully']);
     }
 
 }

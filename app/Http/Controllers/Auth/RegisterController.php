@@ -53,6 +53,11 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'date_of_birth' => 'required|date',
+            'gender' => 'required|string',
+            'address' => 'required|string|min:5|max:50',
+            'phone' => 'required|string|min:10|max:15|unique:users',
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
     }
 
@@ -64,9 +69,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        if (isset($data['profile_image'])) {
+            $image = $data['profile_image'];
+            $image_new_name = time() . $image->getClientOriginalName();
+            $image->move('Images/Users/', $image_new_name);
+            $imagePath = 'Images/Users/' . $image_new_name;
+        } else {
+            $imagePath = 'Images/Users/default.jpg';
+        }
+        $data['profile_image']= $imagePath;
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'date_of_birth' => $data['date_of_birth'],
+            'gender' => $data['gender'],
+            'address' => $data['address'],
+            'phone' => $data['phone'],
+            'profile_image' => $data['profile_image'],
             'password' => Hash::make($data['password']),
         ]);
     }

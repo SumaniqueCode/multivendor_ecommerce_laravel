@@ -15,9 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->bigInteger('phone')->unique();
+            $table->enum('gender',['Male', 'Female', 'Others']);
+            $table->date('date_of_birth');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role',['Administrator','seller', 'user'])->default('user');
+            $table->string('profile_image');
+            $table->string('address');
+            $table->enum('role',['Admin','Seller', 'User'])->default('user');
             $table->rememberToken();
             $table->timestamps();
         });

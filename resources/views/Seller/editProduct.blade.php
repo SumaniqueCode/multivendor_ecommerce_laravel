@@ -11,17 +11,17 @@
                 @csrf
                 <legend class="font-bold text-center text-2xl mb-5">UPDATE PRODUCT DETAILS</legend>
                 <div class="grid grid-cols-12">
-                    <div class="mb-5 name mx-1 col-span-12 sm:col-span-6 md:col-span-4">
-                        <label for="product_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">Product Name</label>
-                        <input type="text" id="product_name" name="product_name" value="{{$products->product_name}}" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('product_name') border-red-300 @enderror" placeholder="Enter product title" required>
-                        <input type="hidden" id="id" name="id" value="{{$products->id}}" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('product_name') border-red-300 @enderror" placeholder="Enter product title" required>
-                        @error('product_name')
+                    <div class="mb-5 name mx-1 col-span-12 md:col-span-6">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">Product Name</label>
+                        <input type="text" id="name" name="name" value="{{$products->name}}" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('name') border-red-300 @enderror" placeholder="Enter product title" required>
+                        <input type="hidden" id="id" name="id" value="{{$products->id}}" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('name') border-red-300 @enderror" placeholder="Enter product title" required>
+                        @error('name')
                             <div class="text-red-500 text-sm"><span>{{ $message }}</span></div>
                         @enderror
                     </div>
-                    <div class="mb-5 category mx-1 col-span-12 sm:col-span-6 md:col-span-4">
-                        <label for="product_category" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                        <select id="product_category" name="category_id" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('product_name') border-red-300 @enderror">
+                    <div class="mb-5 category mx-1 col-span-12 md:col-span-6">
+                        <label for="category" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                        <select id="category" name="category_id" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('name') border-red-300 @enderror">
                             <option id="" name="" value="{{$products->category['id']}}" class="">{{$products->category['name']}}</option>
                             @foreach ($categories as $category)
                             <option id="" name="" value="{{$category->id}}" class="">{{$category->name}}</option>
@@ -31,45 +31,31 @@
                             <div class="text-red-500 text-sm"><span>{{ $message }}</span></div>
                         @enderror
                     </div>
-                    <div class="mb-5 price mx-1 col-span-12 sm:col-span-6 md:col-span-4">
-                        <label for="product_price" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Price</label>
-                        <input type="text" value="{{$products->product_price}}" id="product_price" name="product_price" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('product_name') border-red-300 @enderror" placeholder="Enter the price here" required>
-                        @error('product_price')
+                    <div class="mb-5 brand mx-1 col-span-12 md:col-span-6">
+                        <label for="brand" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Brand</label>
+                        <input type="text" value="{{$products->brand}}" id="brand" name="brand" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('name') border-red-300 @enderror" placeholder="Leave empty if not available">
+                        @error('brand')
                             <div class="text-red-500 text-sm"><span>{{ $message }}</span></div>
                         @enderror
                     </div>
-                    <div class="mb-5 desc mx-1 col-span-12 sm:col-span-6 md:col-span-4 row-span-2">
-                        <label for="product_description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">Product Description</label>
-                        <input type="text" id="product_description" value="{{$products->product_description}}" name="product_description" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm pb-20 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Enter minumum 100 words" required>
-                        @error('product_description')
+                    <div class="mb-5 model mx-1 col-span-12 md:col-span-6">
+                        <label for="model" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Model</label>
+                        <input type="text" id="model" name="model" value="{{$products->model}}" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('name') border-red-300 @enderror" placeholder="Leave empty if not available">
+                        @error('model')
                             <div class="text-red-500 text-sm"><span>{{ $message }}</span></div>
                         @enderror
                     </div>
-                    <div class="mb-5 color mx-1 col-span-12 sm:col-span-6 md:col-span-4">
-                        <label for="product_color" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Color</label>
-                        <input type="text" id="product_color" name="product_color" value="{{$products->product_color}}" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('product_name') border-red-300 @enderror" placeholder="Eg: red" required>
-                        @error('product_color')
+                    <div class="mb-5 desc mx-1 col-span-12 md:col-span-6 row-span-2">
+                        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-left">Product Description</label>
+                        <input type="text" id="description" value="{{$products->description}}" name="description" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm pb-20 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Enter minumum 100 words" required>
+                        @error('description')
                             <div class="text-red-500 text-sm"><span>{{ $message }}</span></div>
                         @enderror
                     </div>
-                    <div class="mb-5 brand mx-1 col-span-12 sm:col-span-6 md:col-span-4">
-                        <label for="product_brand" value="{{$products->product_brand}}" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Brand</label>
-                        <input type="text" id="product_brand" name="product_brand" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('product_name') border-red-300 @enderror" placeholder="Leave empty if not available">
-                        @error('product_brand')
-                            <div class="text-red-500 text-sm"><span>{{ $message }}</span></div>
-                        @enderror
-                    </div>
-                    <div class="mb-5 model mx-1 col-span-12 sm:col-span-6 md:col-span-4">
-                        <label for="product_model" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Model</label>
-                        <input type="text" id="product_model" name="product_model" value="{{$products->product_model}}" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('product_name') border-red-300 @enderror" placeholder="Leave empty if not available">
-                        @error('product_model')
-                            <div class="text-red-500 text-sm"><span>{{ $message }}</span></div>
-                        @enderror
-                    </div>
-                    <div class="mb-5 country mx-1 col-span-12 sm:col-span-6 md:col-span-4">
-                        <label for="origin_country" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Country Of Origin</label>
-                        <select name="origin_country" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('product_name') border-red-300 @enderror">
-                            <option value="{{$products->origin_country}}">{{$products->origin_country}}</option>
+                    <div class="mb-5 country mx-1 col-span-12 md:col-span-6">
+                        <label for="origin" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Country Of Origin</label>
+                        <select name="origin" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('name') border-red-300 @enderror">
+                            <option value="{{$products->origin}}">{{$products->origin}}</option>
                             <option value="Afganistan">Afghanistan</option>
                             <option value="Albania">Albania</option>
                             <option value="Algeria">Algeria</option>
@@ -318,24 +304,10 @@
                             <option value="Zambia">Zambia</option>
                             <option value="Zimbabwe">Zimbabwe</option>
                             </select>
-                            @error('origin_country')
+                            @error('origin')
                             <div class="text-red-500 text-sm"><span>{{ $message }}</span></div>
                         @enderror
                         </div>
-                    <div class="mb-5 mx-1 col-span-12 sm:col-span-6 md:col-span-4">
-                        <label for="stock" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product in Stock</label>
-                        <input type="number" id="stock" name="stock" value="{{$products->stock}}" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('product_name') border-red-300 @enderror" placeholder="Enter number of stocks" required>
-                        @error('stock')
-                            <div class="text-red-500 text-sm"><span>{{ $message }}</span></div>
-                        @enderror
-                    </div>
-                    <div class="mb-5 iamge mx-1 col-span-12 sm:col-span-6 md:col-span-4">
-                        <label for="product_image" class=" text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Image</label>
-                        <input type="file" id="product_image" name="product_image" value="{{$products->product_image}}" class="bg-blue-50 border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 @error('product_name') border-red-300 @enderror">
-                        @error('product_image')
-                            <div class="text-red-500 text-sm"><span>{{ $message }}</span></div>
-                        @enderror
-                    </div>
                     <div class="mb-5 col-span-12 mx-auto">
                         <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-md w-full sm:w-auto px-8 mt-5 py-2.5 text-center">SUBMIT</button>
                     </div>

@@ -8,21 +8,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="src/toastify.js"></script>
   <script>
     $(document).ready(function () {
-      $("#cartdesc").hide();
-
       $("#toggleDropdown").click(function () {
         $("#dropdownMenu").toggle();
       });
-
-      $("#cart").hover(function () {
-        $("#cartdesc").toggle();
-      });
     });
-    $("#cartdesc").hover(function () {
-        $("#cartdesc").show();
-      });
   </script>
   <title>Computer Components Hub</title>
 </head>
@@ -67,7 +60,7 @@
           <div id="dropdownMenu" class="absolute w-72 top-full right-0 mt-4 bg-blue-600 border border-white p-2 rounded-lg shadow-md">
             <a href="/seller/dashboard" class="block text-white hover:bg-white hover:text-black hover:font-bold p-2 rounded">Home </a>
             <a href="/seller/products" class="block border-t-2 text-white hover:bg-white hover:text-black hover:font-bold p-2 rounded">Products</a>
-            <a href="/seller/orders" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Orders</a>
+            <a href="/seller/orders" class="block border-t-2 text-white hover:bg-white hover:text-black hover:font-bold p-2 rounded">Orders</a>
           </div>
         </div>
         {{-- navbar toggle ends --}}
@@ -91,11 +84,11 @@
     </div>
       <div class="socialIcons col-span-12 sm:col-span-7 md:col-span-8 xl:col-span-9 sm:ms-auto mt-3">
         <div class="flex justify-center flex-col sm:flex-row">
-        <a class="border rounded px-2 py-1 mx-1 hover:bg-gradient-to-r from-yellow-500 via-red-600 to-green-500 hover:border-white" href="www.google.com">Gmail</a>
+        <a class="border rounded px-2 py-1 mx-1 hover:bg-gradient-to-r from-green-700 via-yellow-600 to-red-700 hover:border-white" href="www.google.com">Gmail</a>
         <a class="border rounded px-2 py-1 mx-1 hover:bg-blue-600 hover:border-white" href="www.facebook.com">Facebook</a>
         <a class="border rounded px-2 py-1 mx-1 hover:bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 hover:border-white" href="www.instagram.com">Instagram</a>
         <a class="border rounded px-2 py-1 mx-1 hover:bg-blue-500 hover:border-white" href="www.twitter.com">Twitter</a>
-        <a class="border rounded px-2 py-1 mx-1 hover:bg-black hover:border-white" href="www.thread.com">Thred</a>
+        <a class="border rounded px-2 py-1 mx-1 hover:bg-black hover:border-white" href="www.thread.com">Thread</a>
     </div>
     </div>
       <div class="copyright col-span-12 mx-auto mt-3">

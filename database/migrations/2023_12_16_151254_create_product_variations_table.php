@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('product_id');
-            $table->float('product_price');
-            $table->string('product_color');
+            $table->float('price');
+            $table->string('color')->nullable();
+            $table->string('size')->nullable();
             $table->integer('stock');
-            $table->string('product_image');
+            $table->json('image')->nullable();
             $table->foreign('product_id')->references('id')->on('products');
         });
     }

@@ -8,7 +8,7 @@ use App\Models\Seller\Product;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
 
     /**
@@ -16,7 +16,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->get();
+        $categories = Category::orderBy('name', 'asc')->get();
         return view('User.dashboard', compact('categories'));
     }
 
@@ -26,9 +26,19 @@ class UsersController extends Controller
         return view('User.products', compact('products'));
     }
 
+    public function productCategory($id)
+    {
+        $products = Product::where('category_id', $id)->get();
+        return view('User.products', compact('products'));
+    }
+    
     public function productDetails($id)
     {
         $product = Product::where('id', $id)->first();
-        return view('User.productDetails', compact('product'));
+        return view('User.productDetails', compact('product',));
+    }
+
+    public function addDeliveryForm(){
+        return view('User.addDeliveryDetails');
     }
 }

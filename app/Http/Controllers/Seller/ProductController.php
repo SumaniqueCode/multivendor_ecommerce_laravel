@@ -4,102 +4,127 @@ namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
 use App\Models\Seller\Product;
+use App\Models\Seller\productVariation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     public function productValidator(array $productData){
         return Validator::make($productData,[
-            'product_name' => 'required|string|min:5|max:25',
+            'name' => 'required|string|min:5|max:25',
             'category_id' => 'required|integer',
-            'product_description'=>'required|string|min:20|max:5000',
-            'product_price'=>'required|numeric|min:0.1',
-            'product_color'=>'required|string|min:3|max:50',
-            'product_brand'=>'nullable|string|min:3|max:50',
-            'product_model'=>'nullable|string|min:5|max:50',
-            'stock'=>'required|integer|min:1',
-            'origin_country'=>'required|string|min:3|max:50',
-            'product_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description'=>'required|string|min:20|max:5000',
+            'brand'=>'nullable|string|min:3|max:50',
+            'model'=>'nullable|string|min:5|max:50',
+            'origin'=>'required|string|min:3|max:50',
         ]);
     }
 
     public function addProduct(Request $request){
         $productData = $request->all();
         $validator = $this->productValidator($productData);
+        $imageArray = [];
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|min:5|max:25',
+            'category_id' => 'required|integer',
+            'description'=>'required|string|min:20|max:5000',
+            'brand'=>'nullable|string|min:3|max:50',
+            'model'=>'nullable|string|min:5|max:50',
+            'origin'=>'required|string|min:3|max:50',
+            'price'=>'required|numeric|min:0.1',
+            'color'=>'nullable|string|min:3|max:50',
+            'size'=> 'nullable|string|min:1|max:16',
+            'stock'=>'required|integer|min:1',
+            'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    
         if ($validator->fails()) {
             return back()->withErrors($validator);
-        } else {
-            if (isset($productData['product_image'])) {
-                $image = $productData['product_image'];
+        }
+    
+        DB::beginTransaction();  
+                              
+        try {
+            if (isset($productData['image']) && $productData['image']) {
+                $image = $productData['image'];
                 $image_new_name = time() . $image->getClientOriginalName();
                 $image->move('Images/Products/', $image_new_name);
                 $imagePath = 'Images/Products/' . $image_new_name;
+                $imageArray[] =  $imagePath;    
             } else {
-                $imagePath = 'Images/Products/default.jpg';
+                $imageArray[] = 'Images/Products/default-product-image.png';
             }
-            $product= Product::create([
-                'product_name' => $request->product_name,
-                'category_id' => $request->category_id,
-                'seller_id' => auth()->user()->id,
-                'product_description'=>$request->product_description,
-                'product_price'=>$request->product_price,
-                'product_color'=>$request->product_color,
-                'product_brand'=>$request->product_brand,
-                'product_model'=>$request->product_model,
-                'stock'=>$request->stock,
-                'origin_country'=>$request->origin_country,
-                'product_image' =>$imagePath,
+
+            $product = Product::create([
+            'name' => $request->name,
+            'category_id' => $request->category_id,
+            'user_id' => auth()->user()->id,
+            'description' => $request->description,
+            'brand' => $request->brand,
+            'model' => $request->model,
+            'origin' => $request->origin,
+            'status' => "Active",
+       ] );
+            productVariation::create([
+                "product_id" => $product->id,
+                'price' => $request->price,
+                'color' => $request->color,
+                'stock' => $request->stock,
+                "size" => $request->size,
+                'image' => json_encode($imageArray),
             ]);
+    
+            DB::commit();
+    
             return redirect('product/get-product-details/' . $product->id)->with('success', 'Product Added Successfully');
-            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Error adding product: ' . $e->getMessage());
+        }
     }
+    
     public function getProductDetails($id){
         $product = Product::where('id', $id)->first();
-        $productVariations = $product->productVariation()->get();
-        return view('Seller.viewProduct', compact('product','productVariations'));
+        $productVariations = $product->productVariation;
+        return view('Seller.viewProduct', compact('product', 'productVariations'));
     }
 
     public function editProduct(Request $request){
         $productData = $request->all();
-        $validator =$this->productValidator($productData);
+        $validator = $this->productValidator($productData);
         if ($validator->fails()) {
             return back()->withErrors($validator);
         } else {
-            if (isset($productData['product_image'])) {
-                $image = $productData['product_image'];
-                $image_new_name = time() . $image->getClientOriginalName();
-                $image->move('Images/Products/', $image_new_name);
-                $imagePath = 'Images/Products/' . $image_new_name;
-            } else {
-                $imagePath = 'Images/Products/default.jpg';
-            }
             $product = Product::where('id', $request->id)->first();
             $product->update([
-                'product_name' => $request->product_name,
+                'name' => $request->name,
                 'category_id' => $request->category_id,
-                'product_description'=>$request->product_description,
-                'product_price'=>$request->product_price,
-                'product_color'=>$request->product_color,
-                'product_brand'=>$request->product_brand,
-                'product_model'=>$request->product_model,
-                'stock'=>$request->stock,
-                'origin_country'=>$request->origin_country,
-                'product_image' =>$imagePath,
+                'user_id' => auth()->user()->id,
+                'description'=>$request->description,
+                'brand'=>$request->brand,
+                'model'=>$request->model,
+                'origin'=>$request->origin,
             ]);
-            $productVariations = $product->productVariation()->get();
-        return view('Seller.viewProduct', compact('product', 'productVariations'))->with('success','Product updated successfully');
+            return redirect('product/get-product-details/' . $product->id)->with('success', 'Product Added Successfully');
+        }
     }
-}
-
 
     public function deleteProduct($id){
         $product = Product::where('id', $id)->first();
-        $productVariation = $product->productVariation;
-        $product->delete();
-        $productVariation->delete();
-
-        return redirect()->with('success', 'Product Deleted successfully');
+        // $product->delete();
+        return back()->with('success', 'Product Deleted successfully');
     }
 
+    public function changeProductStatus($id){
+        $product = Product::findOrFail($id);
+        if($product->status === "Active"){
+            $product->update(['status' => 'Inactive']);
+            return response()->json("Inactive");
+        }else{
+            $product->update(['status' => 'Active']);
+            return response()->json("Active");
+        }
+    }
 }
