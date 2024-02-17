@@ -92,3 +92,6 @@ Route::get('/delete-product-variation/{id}',[ProductVariationController::class, 
 //Admin Routes
 Route::post('/add-category', [ProductCategoryController::class, 'addCategory'])->name('add_category');
 Route::get('/categories', function(){return view('Seller.category');});
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
