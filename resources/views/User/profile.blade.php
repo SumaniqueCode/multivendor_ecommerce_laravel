@@ -1,4 +1,8 @@
+@if (Auth()->user()->role == "User")
 @extends('User.Layout.layout')
+@else
+    
+@endif
 
 @section('content')
 
