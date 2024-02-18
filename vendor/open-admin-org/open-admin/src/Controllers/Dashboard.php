@@ -171,9 +171,11 @@ class Dashboard
     
         // Weekly users
         $weeklyUserCount = [];
+        $totalUserThisWeek = 0;
         foreach ($last7Days as $day) {
             list($month, $day) = explode(' ', $day);
             $weeklyUserCount[] = $userCount[$currentYear][$month][$day] ?? 0;
+            $totalUserThisWeek = $totalUserThisWeek + ($userCount[$currentYear][$month][$day] ?? 0);
         }
     
         // Current Month
@@ -182,10 +184,13 @@ class Dashboard
             $date = now()->subDays($j)->format('F j');
             $thisMonth[] = $date;
         }
+
         $monthlyUserCount = [];
+        $totalUserThisMonth = 0;
         foreach ($thisMonth as $day) {
             list($month, $day) = explode(' ', $day);
             $monthlyUserCount[] = $userCount[$currentYear][$month][$day] ?? 0;
+            $totalUserThisMonth = $totalUserThisMonth+ ($userCount[$currentYear][$month][$day] ?? 0);
         }
     
         // This Year
@@ -193,12 +198,15 @@ class Dashboard
         foreach ($dateRangeThisYear as $date) {
             $thisYear[] = $date->format('F j');
         }
+
         $yearlyUserCount = [];
+        $totalUserThisYear = 0;
         foreach ($thisYear as $day) {
             list($month, $day) = explode(' ', $day);
             $yearlyUserCount[] = $userCount[$currentYear][$month][$day] ?? 0;
-        }
+            $totalUserThisYear = $totalUserThisYear+($userCount[$currentYear][$month][$day] ?? 0);
 
+        }
         $orders = Order::latest()->get();
 
         foreach ($orders as $order) {
@@ -216,11 +224,14 @@ class Dashboard
 
         $weeklyKhaltiOrders = [];
         $weeklyCashOrders = [];
+        $totalWeeklyOrder = 0;
         foreach ($last7Days as $day) {
             list($month, $day) = explode(' ', $day);
             $weeklyKhaltiOrders[] = $khaltiOrders[$currentYear][$month][$day] ?? 0;
             $weeklyCashOrders[] = $cashOrders[$currentYear][$month][$day] ?? 0;
+            $totalWeeklyOrder = $totalWeeklyOrder + ($khaltiOrders[$currentYear][$month][$day] ?? 0) + ($cashOrders[$currentYear][$month][$day] ?? 0);
+
         }
-        return view('admin::dashboard.charts', compact('userCount', 'last7Days', 'weeklyUserCount', 'thisMonth', 'monthlyUserCount', 'thisYear', 'yearlyUserCount', 'weeklyKhaltiOrders', 'weeklyCashOrders'));
+        return view('admin::dashboard.charts', compact('userCount', 'last7Days', 'weeklyUserCount','totalUserThisWeek', 'thisMonth', 'monthlyUserCount','totalUserThisMonth', 'thisYear', 'yearlyUserCount', 'totalUserThisYear', 'weeklyKhaltiOrders', 'weeklyCashOrders', 'totalWeeklyOrder'));
     }
 }

@@ -23,7 +23,12 @@ class ProfileController extends Controller
         ]);
     }
     public function userProfile(){
-        return view('User.profile');
+        if(Auth()->user()->role == "User"){
+            return view('User.profile');
+        }
+        else{
+            return view('Seller.profile');
+        }
     }
 
     protected function editUser( Request $request)

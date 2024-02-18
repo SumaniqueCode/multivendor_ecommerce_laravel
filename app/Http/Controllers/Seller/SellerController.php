@@ -21,7 +21,7 @@ class SellerController extends Controller
         $currentMonth = date('F');
         $currentDay = date('j');
     
-        // Initialize user count array for missing days of this year
+        // Initialize count array for missing days of this year
         $startDateThisYear = Carbon::createFromDate($currentYear)->startOfYear();
         $endDateThisYear = now()->startOfDay(); // Get the current date
         $dateRangeThisYear = CarbonPeriod::create($startDateThisYear, $endDateThisYear);
@@ -73,14 +73,16 @@ class SellerController extends Controller
 
         $weeklyKhaltiOrders = [];
         $weeklyCashOrders = [];
+        $totalWeeklyOrder = 0;
         foreach ($last7Days as $day) {
             list($month, $day) = explode(' ', $day);
             $weeklyKhaltiOrders[] = $khaltiOrders[$currentYear][$month][$day] ?? 0;
             $weeklyCashOrders[] = $cashOrders[$currentYear][$month][$day] ?? 0;
+            $totalWeeklyOrder =  $totalWeeklyOrder + ($khaltiOrders[$currentYear][$month][$day] ?? 0) + ($cashOrders[$currentYear][$month][$day] ?? 0);
         }
 
     
-        return view("Seller.sellerDashboard", compact('last7Days', 'thisMonth', 'thisYear', 'weeklyKhaltiOrders', 'weeklyCashOrders'));
+        return view("Seller.sellerDashboard", compact('last7Days', 'thisMonth', 'thisYear', 'weeklyKhaltiOrders', 'weeklyCashOrders', 'totalWeeklyOrder'));
     }
     
     
