@@ -55,7 +55,7 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="btn btn-primary border border-white my-1 ms-2" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="btn btn-primary border border-white my-1 ms-2" href="{{ route('login') }}">LOGIN{{ __('Login') }}</a>
                                 </li>
                             @endif
 
