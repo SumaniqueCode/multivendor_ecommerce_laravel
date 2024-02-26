@@ -224,14 +224,12 @@ class Dashboard
 
         $weeklyKhaltiOrders = [];
         $weeklyCashOrders = [];
-        $totalWeeklyOrder = 0;
         foreach ($last7Days as $day) {
             list($month, $day) = explode(' ', $day);
             $weeklyKhaltiOrders[] = $khaltiOrders[$currentYear][$month][$day] ?? 0;
             $weeklyCashOrders[] = $cashOrders[$currentYear][$month][$day] ?? 0;
-            $totalWeeklyOrder = $totalWeeklyOrder + ($khaltiOrders[$currentYear][$month][$day] ?? 0) + ($cashOrders[$currentYear][$month][$day] ?? 0);
-
         }
+        $totalWeeklyOrder =  array_sum($weeklyKhaltiOrders) + array_sum($weeklyCashOrders);
         return view('admin::dashboard.charts', compact('userCount', 'last7Days', 'weeklyUserCount','totalUserThisWeek', 'thisMonth', 'monthlyUserCount','totalUserThisMonth', 'thisYear', 'yearlyUserCount', 'totalUserThisYear', 'weeklyKhaltiOrders', 'weeklyCashOrders', 'totalWeeklyOrder'));
     }
 }

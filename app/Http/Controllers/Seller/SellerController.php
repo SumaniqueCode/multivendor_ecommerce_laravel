@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Category;
 use App\Models\Seller\Product;
 use App\Models\User\Order;
+use App\Models\viewCounter;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
@@ -15,6 +16,8 @@ class SellerController extends Controller
     {
         $khaltiOrders = [];
         $cashOrders = [];
+        $productClicks = [];
+        $CPC=[];
     
         // Get current year, month, and day
         $currentYear = date('Y');
@@ -34,6 +37,8 @@ class SellerController extends Controller
             $userCount[$year][$month][$day] = 0;
             $khaltiOrders[$year][$month][$day] = 0;
             $cashOrders[$year][$month][$day] = 0;
+            $productClicks[$year][$month][$day] = 0;
+            $CPC[$year][$month][$day] = 0;
         }
      
         // Last 7 days
@@ -71,18 +76,56 @@ class SellerController extends Controller
             }
         }
 
+        $clicks = viewCounter::where('seller_id', auth()->user()->id)->get();
+        foreach ($clicks as $click) {
+            $year = $click->created_at->format('Y');
+            $month = $click->created_at->format('F');
+            $day = $click->created_at->format('j');
+            $CPC[$year][$month][$day] += sprintf("%.2f",($khaltiOrders[$year][$month][$day] + $cashOrders[$year][$month][$day])/$click->count);
+            $productClicks[$year][$month][$day] += $click->count;
+        }
         $weeklyKhaltiOrders = [];
         $weeklyCashOrders = [];
-        $totalWeeklyOrder = 0;
+        $weeklySales = [];
+        $weeklyClicks = [];
+        $weeklyCPC = [];
         foreach ($last7Days as $day) {
             list($month, $day) = explode(' ', $day);
             $weeklyKhaltiOrders[] = $khaltiOrders[$currentYear][$month][$day] ?? 0;
             $weeklyCashOrders[] = $cashOrders[$currentYear][$month][$day] ?? 0;
-            $totalWeeklyOrder =  $totalWeeklyOrder + ($khaltiOrders[$currentYear][$month][$day] ?? 0) + ($cashOrders[$currentYear][$month][$day] ?? 0);
+            $weeklySales[] =  ($khaltiOrders[$currentYear][$month][$day] ?? 0) + ($cashOrders[$currentYear][$month][$day] ?? 0);
+            $weeklyClicks[] = $productClicks[$currentYear][$month][$day] ?? 0;
+            $weeklyCPC[] = $CPC[$currentYear][$month][$day] ?? 0;
+            
         }
+        $totalWeeklyOrder =  array_sum($weeklyKhaltiOrders) + array_sum($weeklyCashOrders);
+        $totalWeeklyClicks =  array_sum($weeklyClicks);
+        $totalWeeklyCPC =  array_sum($weeklyCPC);
 
-    
-        return view("Seller.sellerDashboard", compact('last7Days', 'thisMonth', 'thisYear', 'weeklyKhaltiOrders', 'weeklyCashOrders', 'totalWeeklyOrder'));
+        $monthlyKhaltiOrders = [];
+        $monthlyCashOrders = [];
+        $monthlySales = [];
+        $monthlyClicks = [];
+        $monthlyCPC = [];
+        foreach ($thisMonth as $month) {
+            list($month, $day) = explode(' ', $month);
+            $monthlyKhaltiOrders[] = $khaltiOrders[$currentYear][$month][$day] ?? 0;
+            $monthlyCashOrders[] = $cashOrders[$currentYear][$month][$day] ?? 0;
+            $monthlySales[] =  ($khaltiOrders[$currentYear][$month][$day] ?? 0) + ($cashOrders[$currentYear][$month][$day] ?? 0);
+            $monthlyClicks[] = $productClicks[$currentYear][$month][$day] ?? 0;
+            $monthlyCPC[] = $CPC[$currentYear][$month][$day] ?? 0;
+            
+        }
+        $totalMonthlyOrder =  array_sum($weeklyKhaltiOrders) + array_sum($weeklyCashOrders);
+        $totalMonthlyClicks =  array_sum($weeklyClicks);
+        $totalMonthlyCPC =  array_sum($weeklyCPC);
+        return view("Seller.sellerDashboard", compact(
+            'last7Days', 'thisMonth', 'thisYear',
+            'weeklyKhaltiOrders', 'weeklyCashOrders', 'totalWeeklyOrder',
+            'weeklySales', 'weeklyClicks','totalWeeklyClicks', 'weeklyCPC','totalWeeklyCPC',
+            'monthlyKhaltiOrders', 'monthlyCashOrders', 'totalMonthlyOrder',
+            'monthlySales', 'monthlyClicks','totalMonthlyClicks', 'monthlyCPC','totalMonthlyCPC'
+        ));
     }
     
     

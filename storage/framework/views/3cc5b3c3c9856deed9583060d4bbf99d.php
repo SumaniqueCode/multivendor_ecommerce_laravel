@@ -1,9 +1,56 @@
 
 <?php $__env->startSection('content'); ?>
+<script>
+    var last7Days = <?php echo json_encode($last7Days, 15, 512) ?>;
+    var thisMonth = <?php echo json_encode($thisMonth, 15, 512) ?>;
+    var thisYear = <?php echo json_encode($thisYear, 15, 512) ?>;
+
+    //order chart variable starts
+    var weeklyCashOrders = <?php echo json_encode($weeklyCashOrders, 15, 512) ?>;
+    var weeklyKhaltiOrders = <?php echo json_encode($weeklyKhaltiOrders, 15, 512) ?>; 
+    var monthlyCashOrders = <?php echo json_encode($monthlyCashOrders, 15, 512) ?>;
+    var monthlyKhaltiOrders = <?php echo json_encode($monthlyKhaltiOrders, 15, 512) ?>; 
+
+    var orderRange = last7Days;
+    var khaltiOrderData = weeklyKhaltiOrders;
+    var cashOrderData = weeklyCashOrders;
+
+    $("#ordersDropdown").change(function () {
+        var orderDropdown =  $("#ordersDropdown").val();
+        orderRange = orderDropdown=="30days" ? thisMonth : last7Days;
+        khaltiOrderData =  orderDropdown=="30days" ? monthlyKhaltiOrders : weeklyKhaltiOrders;
+        cashOrderData =  orderDropdown=="30days" ? monthlyCashOrders : weeklyCashOrders;
+        renderOrderChart( orderRange, khaltiOrderData, cashOrderData);
+    });
+    //order chart variable stops
+
+    //cpc chart variable  starts
+    var weeklySales = <?php echo json_encode($weeklySales, 15, 512) ?>;
+    var weeklyClicks = <?php echo json_encode($weeklyClicks, 15, 512) ?>;
+    var weeklyCPC = <?php echo json_encode($weeklyCPC, 15, 512) ?>;
+    var monthlySales = <?php echo json_encode($monthlySales, 15, 512) ?>;
+    var monthlyClicks = <?php echo json_encode($monthlyClicks, 15, 512) ?>;
+    var monthlyCPC = <?php echo json_encode($monthlyCPC, 15, 512) ?>;
+    var cpcRange = last7Days;
+    var cpcData = weeklyCPC;
+    var salesData = weeklySales;
+
+    $("#cpcDropdown").change(function () {
+        var cpcDropdown =  $("#cpcDropdown").val();
+        cpcRange = cpcDropdown=="30days" ? thisMonth : last7Days;
+        salesData =  cpcDropdown=="30days" ? monthlySales : weeklySales;
+        cpcData =  cpcDropdown=="30days" ? monthlyCPC : weeklyCPC;
+        renderCPCChart( cpcRange, salesData, cpcData);
+    });
+    //cpc chart variable ends
+    window.addEventListener("load", function () {
+        renderOrderChart( orderRange, khaltiOrderData, cashOrderData);
+        // renderCPCChart( cpcRange, salesData, cpcData);
+    });
+</script>
 
 <div class="grid grid-cols-12">
-
-    <div class="ordersChart col-span-12 lg:col-span-6">           
+    <div class="ordersChart col-span-12">           
         <div class="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
             <div class="flex justify-between mb-5">
             <div>
@@ -49,20 +96,12 @@
         </div>
         
         <script>
-
-            var weeklyCashOrders = <?php echo json_encode($weeklyCashOrders, 15, 512) ?>;
-            var weeklyKhaltiOrders = <?php echo json_encode($weeklyKhaltiOrders, 15, 512) ?>;
-            var last7Days = <?php echo json_encode($last7Days, 15, 512) ?>;
-            console.log('Khalti order Count: ', weeklyKhaltiOrders);
-            console.log('Cash order Count: ', weeklyCashOrders);
-            
-            // ApexCharts options and config
-            window.addEventListener("load", function() {
-            let options = {
+            function renderOrderChart(orderRange, cashOrderData, khaltiOrderData) {
+                let options = {
                 // enable and customize data labels using the following example, learn more from here: https://apexcharts.com/docs/datalabels/
                 dataLabels: {
                 enabled: true,
-                // offsetX: 10,
+                // offsetX: -12,
                 style: {
                     cssClass: 'text-xs text-white font-medium'
                 },
@@ -79,12 +118,12 @@
                 series: [
                 {
                     name: "Cash On Delivery",
-                    data: weeklyCashOrders,
+                    data: cashOrderData,
                     color: "#1A56DB",
                 },
                 {
                     name: "Khalti",
-                    data: weeklyKhaltiOrders,
+                    data: khaltiOrderData,
                     color: "#7E3BF2",
                 },
                 ],
@@ -122,7 +161,7 @@
                 width: 6,
                 },
                 xaxis: {
-                categories: last7Days,
+                categories: orderRange,
                 labels: {
                     show: false,
                 },
@@ -147,34 +186,54 @@
                 const chart = new ApexCharts(document.getElementById("data-labels-chart"), options);
                 chart.render();
             }
-            });
+            };
         </script>
         
     </div>
 
-    <div class="doubleLineChart col-span-12 lg:col-span-6">  
+    <div class="doubleLineChart col-span-12">  
         <div class="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
             <div class="flex justify-between mb-5">
-            <div class="grid gap-4 grid-cols-2">
+            <div class="grid gap-4 grid-cols-3">
                 <div>
-                <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">Clicks
-                    <svg data-popover-target="clicks-info" data-popover-placement="bottom" class="w-3 h-3 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                    </svg>
-                    <div data-popover id="clicks-info" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
-                        <div class="p-3 space-y-2">
-                            <h3 class="font-semibold text-gray-900 dark:text-white">Clicks growth - Incremental</h3>
-                            <p>Report helps navigate cumulative growth of community activities. Ideally, the chart should have a growing trend, as stagnating chart signifies a significant decrease of community activity.</p>
-                            <h3 class="font-semibold text-gray-900 dark:text-white">Calculation</h3>
-                            <p>For each date bucket, the all-time volume of activities is calculated. This means that activities in period n contain all activities up to period n, plus the activities generated by your community in period.</p>
-                            <a href="#" class="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline">Read more <svg class="w-2 h-2 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                    </svg></a>
+                    <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">Clicks
+                        <svg data-popover-target="clicks-info" data-popover-placement="bottom" class="w-3 h-3 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <div data-popover id="clicks-info" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
+                            <div class="p-3 space-y-2">
+                                <h3 class="font-semibold text-gray-900 dark:text-white">Clicks growth - Incremental</h3>
+                                <p>Report helps navigate cumulative growth of community activities. Ideally, the chart should have a growing trend, as stagnating chart signifies a significant decrease of community activity.</p>
+                                <h3 class="font-semibold text-gray-900 dark:text-white">Calculation</h3>
+                                <p>For each date bucket, the all-time volume of activities is calculated. This means that activities in period n contain all activities up to period n, plus the activities generated by your community in period.</p>
+                                <a href="#" class="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline">Read more <svg class="w-2 h-2 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                        </svg></a>
+                            </div>
+                            <div data-popper-arrow></div>
                         </div>
-                        <div data-popper-arrow></div>
-                    </div>
-                </h5>
-                <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">42,3k</p>
+                    </h5>
+                    <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold"><?php echo e($totalWeeklyClicks, false); ?></p>
+                </div>
+                <div>
+                    <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">Sales
+                        <svg data-popover-target="clicks-info" data-popover-placement="bottom" class="w-3 h-3 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <div data-popover id="sales-info" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
+                            <div class="p-3 space-y-2">
+                                <h3 class="font-semibold text-gray-900 dark:text-white">Earning growth - Incremental</h3>
+                                <p>Report helps navigate cumulative growth of community activities. Ideally, the chart should have a growing trend, as stagnating chart signifies a significant decrease of community activity.</p>
+                                <h3 class="font-semibold text-gray-900 dark:text-white">Calculation</h3>
+                                <p>For each date bucket, the all-time volume of activities is calculated. This means that activities in period n contain all activities up to period n, plus the activities generated by your community in period.</p>
+                                <a href="#" class="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline">Read more <svg class="w-2 h-2 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                        </svg></a>
+                            </div>
+                            <div data-popper-arrow></div>
+                        </div>
+                    </h5>
+                    <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">Rs. <?php echo e($totalWeeklyOrder, false); ?></p>
                 </div>
                 <div>
                 <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">CPC
@@ -194,34 +253,25 @@
                         <div data-popper-arrow></div>
                     </div>
                 </h5>
-                <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">$5.40</p>
+                <p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">Rs. <?php echo e($totalWeeklyCPC, false); ?></p>
                 </div>
             </div>
             <div>
-                <button id="dropdownDefaultButton"
-                data-dropdown-toggle="lastDaysdropdown"
-                data-dropdown-placement="bottom" type="button" class="px-3 py-2 inline-flex items-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Last week <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-            </svg></button>
-            <div id="lastDaysdropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                    <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 7 days</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 30 days</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 90 days</a>
-                    </li>
-                    </ul>
-                </div>
+                <!-- Dropdown menu -->
+                <select id="cpcDropdown" class="rounded-lg shadow text-gray-900 font-semibold hover:cursor-pointer hover:text-blue-700 hover:bg-gray-100 hover:cursor-pointer" >
+                    <option class="text-gray-900" value="7days">
+                         Last 7 days
+                    </option>
+                    <option class="text-gray-900" value="30days">
+                        This Month
+                    </option>
+                    <option class="text-gray-900" value="365days">
+                        This Year
+                    </option>
+                    <option class="text-gray-900" class="alltime">
+                        Overall
+                    </option>
+                </select>
             </div>
             </div>
             <div id="line-chart"></div>
@@ -240,7 +290,7 @@
         
         <script>
             // ApexCharts options and config
-            window.addEventListener("load", function() {
+            function renderCPCChart(cpcRange, salesData, cpcData) {
             let options = {
                 chart: {
                 height: "100%",
@@ -277,13 +327,13 @@
                 },
                 series: [
                 {
-                    name: "Clicks",
-                    data: [6500, 6418, 6456, 6526, 6356, 6456],
+                    name: "Sales",
+                    data: salesData,
                     color: "#1A56DB",
                 },
                 {
                     name: "CPC",
-                    data: [6456, 6356, 6526, 6332, 6418, 6500],
+                    data: cpcData,
                     color: "#7E3AF2",
                 },
                 ],
@@ -294,7 +344,7 @@
                 curve: 'smooth'
                 },
                 xaxis: {
-                categories: ['01 Feb', '02 Feb', '03 Feb', '04 Feb', '05 Feb', '06 Feb', '07 Feb'],
+                categories: cpcRange,
                 labels: {
                     show: true,
                     style: {
@@ -318,7 +368,7 @@
                 const chart = new ApexCharts(document.getElementById("line-chart"), options);
                 chart.render();
             }
-            });
+            };
         </script>
   
     </div>
