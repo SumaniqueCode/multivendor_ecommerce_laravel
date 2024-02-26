@@ -4,10 +4,6 @@
 /public/hot
 /public/storage
 /storage/*.key
-<<<<<<< HEAD
-=======
-/vendor
->>>>>>> 70d1464bf40a17725e7e305fefcd5906cc763a80
 .env
 .env.backup
 .env.production

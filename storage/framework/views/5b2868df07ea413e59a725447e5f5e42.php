@@ -55,7 +55,7 @@
                         <?php if(auth()->guard()->guest()): ?>
                             <?php if(Route::has('login')): ?>
                                 <li class="nav-item">
-                                    <a class="btn btn-primary border border-white my-1 ms-2" href="<?php echo e(route('login'), false); ?>">LOGIN<?php echo e(__('Login'), false); ?></a>
+                                    <a class="btn btn-primary border border-white my-1 ms-2" href="<?php echo e(route('login'), false); ?>"><?php echo e(__('Login'), false); ?></a>
                                 </li>
                             <?php endif; ?>
 

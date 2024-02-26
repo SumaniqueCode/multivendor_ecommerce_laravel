@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('view_counters', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('project_id')->nullable();
-            $table->unsignedBigInteger('uder_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('seller_id')->nullable();
             $table->integer('count')->nullable();
-            $table->foreign('project_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
