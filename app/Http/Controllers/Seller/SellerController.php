@@ -21,7 +21,7 @@ class SellerController extends Controller
     
         // Get current year, month, and day
         $currentYear = date('Y');
-        $currentMonth = date('F');
+        $currentMonth = date('M');
         $currentDay = date('j');
     
         // Initialize count array for missing days of this year
@@ -31,7 +31,7 @@ class SellerController extends Controller
     
         foreach ($dateRangeThisYear as $date) {
             $year = $date->format('Y');
-            $month = $date->format('F'); 
+            $month = $date->format('M'); 
             $day = $date->format('j');
     
             $userCount[$year][$month][$day] = 0;
@@ -44,28 +44,28 @@ class SellerController extends Controller
         // Last 7 days
         $last7Days = [];
         for ($i = 6; $i >= 0; $i--) {
-            $date = now()->subDays($i)->format('F j');
+            $date = now()->subDays($i)->format('M j');
             $last7Days[] = $date;
         }
     
         // Current Month
         $thisMonth = [];
         for ($j = $currentDay - 1; $j >= 0; $j--) {
-            $date = now()->subDays($j)->format('F j');
+            $date = now()->subDays($j)->format('M j');
             $thisMonth[] = $date;
         }
     
         // This Year
         $thisYear = [];
         foreach ($dateRangeThisYear as $date) {
-            $thisYear[] = $date->format('F j');
+            $thisYear[] = $date->format('M j');
         }
 
         $orders = Order::where('seller_id', auth()->user()->id)->get();
 
         foreach ($orders as $order) {
             $year = $order->created_at->format('Y');
-            $month = $order->created_at->format('F');
+            $month = $order->created_at->format('M');
             $day = $order->created_at->format('j');
 
             if ($order->payment_method == 'Khalti') {
@@ -79,7 +79,7 @@ class SellerController extends Controller
         $clicks = viewCounter::where('seller_id', auth()->user()->id)->get();
         foreach ($clicks as $click) {
             $year = $click->created_at->format('Y');
-            $month = $click->created_at->format('F');
+            $month = $click->created_at->format('M');
             $day = $click->created_at->format('j');
             $CPC[$year][$month][$day] += sprintf("%.2f",($khaltiOrders[$year][$month][$day] + $cashOrders[$year][$month][$day])/$click->count);
             $productClicks[$year][$month][$day] += $click->count;

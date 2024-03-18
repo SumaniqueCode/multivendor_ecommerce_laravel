@@ -29,14 +29,16 @@
                     <h3 class="text-base font-medium text-left">Phone: {{auth()->user()->phone}}</h3>
                 </div>
             </div>
+            <div class="top-1/4 left-2/3 absolute">
+                <a href="/edit-user"><button class="bg-blue-700 text-white rounded m-2 p-1 px-5 font-medium">Edit</button></a>
+            </div>
             <div class="top-2/3 left-2/3 absolute">
-               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{ route('logout') }}"
+               {{-- <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown"> --}}
+                <a class="" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();">
                    <button class="font-medium bg-red-600 border rounded text-white px-2 py-1"> {{ __('LOGOUT') }}</button>
                 </a>
-
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
                 </form>

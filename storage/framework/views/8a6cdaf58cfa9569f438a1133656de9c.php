@@ -29,14 +29,16 @@
                     <h3 class="text-base font-medium text-left">Phone: <?php echo e(auth()->user()->phone, false); ?></h3>
                 </div>
             </div>
+            <div class="top-1/4 left-2/3 absolute">
+                <a href="/edit-user"><button class="bg-blue-700 text-white rounded m-2 p-1 px-5 font-medium">Edit</button></a>
+            </div>
             <div class="top-2/3 left-2/3 absolute">
-               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="<?php echo e(route('logout'), false); ?>"
+               
+                <a class="" href="<?php echo e(route('logout'), false); ?>"
                    onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();">
                    <button class="font-medium bg-red-600 border rounded text-white px-2 py-1"> <?php echo e(__('LOGOUT'), false); ?></button>
                 </a>
-
                 <form id="logout-form" action="<?php echo e(route('logout'), false); ?>" method="POST" class="d-none">
                     <?php echo csrf_field(); ?>
                 </form>

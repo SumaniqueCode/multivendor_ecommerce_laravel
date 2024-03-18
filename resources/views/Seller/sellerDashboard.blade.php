@@ -1,6 +1,7 @@
 @extends('Seller.Layout.layout')
 @section('content')
 <script>
+    $("document").ready(function(){
     var last7Days = @json($last7Days);
     var thisMonth = @json($thisMonth);
     var thisYear = @json($thisYear);
@@ -47,6 +48,7 @@
         renderOrderChart( orderRange, khaltiOrderData, cashOrderData);
         renderCPCChart( cpcRange, salesData, cpcData);
     });
+});
 </script>
 
 <div class="grid grid-cols-12">

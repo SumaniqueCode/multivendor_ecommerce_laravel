@@ -1,6 +1,7 @@
 
 <?php $__env->startSection('content'); ?>
 <script>
+    $("document").ready(function(){
     var last7Days = <?php echo json_encode($last7Days, 15, 512) ?>;
     var thisMonth = <?php echo json_encode($thisMonth, 15, 512) ?>;
     var thisYear = <?php echo json_encode($thisYear, 15, 512) ?>;
@@ -45,8 +46,9 @@
     //cpc chart variable ends
     window.addEventListener("load", function () {
         renderOrderChart( orderRange, khaltiOrderData, cashOrderData);
-        // renderCPCChart( cpcRange, salesData, cpcData);
+        renderCPCChart( cpcRange, salesData, cpcData);
     });
+});
 </script>
 
 <div class="grid grid-cols-12">
