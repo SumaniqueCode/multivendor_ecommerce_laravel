@@ -31,7 +31,13 @@ class ProfileController extends Controller
         }
     }
 
-    protected function editUser( Request $request)
+    public function editUser()
+    {
+        $user = auth()->user();
+        return view('editProfile', compact('user'));
+    }
+
+    public function updateUser( Request $request)
     {
         $userData = $request->all();
         $validator = $this->Validator($userData);
