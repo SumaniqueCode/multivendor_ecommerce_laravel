@@ -35,8 +35,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     //User Routes
     Route::get('/dashboard',[UserController::class, 'index'])->name('user_dashboard');
-    Route::get('/profile',[ProfileController::class, 'userProfile'])->name('user_pofile');
-    Route::get('/edit-user',[ProfileController::class, 'editUser'])->name('edit_pofile');
+    Route::get('/profile',[ProfileController::class, 'userProfile'])->name('user_profile');
+    Route::get('/edit-user',[ProfileController::class, 'editUser'])->name('edit_profile');
+    Route::post('/update-user',[ProfileController::class, 'updateUser'])->name('update_profile');
     Route::get('/products',[UserController::class, 'products'])->name('user_products');
     Route::get('/get-product-details/{id}',[UserController::class, 'productDetails'])->name('user_product_details');
     Route::get('/get-product-by-category/{id}',[UserController::class, 'productCategory'])->name('category_products');

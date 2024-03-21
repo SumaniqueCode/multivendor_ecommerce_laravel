@@ -57,13 +57,6 @@
             });
         </script>
         <div class="mx-5 my-5 grid grid-cols-12 border-2 border-gray-200 rounded-2xl">
-            <div class="col-span-12">
-                @if (session('success'))
-                    <div class="border rounded text-center py-2 bg-green-500 mt-1 text-white">
-                        <span>{{ session('success') }}</span>
-                    </div>
-                @endif
-            </div>
             <div class="product lg:col-span-6 col-span-12">
                 <div class="productImage my-2">
                     <img id="productMainImage" class="w-2/5 rounded"

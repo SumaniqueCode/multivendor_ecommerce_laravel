@@ -33,8 +33,8 @@
             });
 
             //for updating cart value
-            $("#updatequantity").on('input', function() {
-                var newQuantity = document.getElementById("updatequantity").value;
+            $("#updatequantity").on('change', function() {
+                var newQuantity = $(this).val();
                 var cartData = document.getElementById("cartData").value;
                 console.log("Cart data: ", cartData);
                 var cart = JSON.parse(cartData).cart;
@@ -71,12 +71,6 @@
 
     <div class="mx-5">
         <div class="grid grid-cols-12">
-            <div class="col-span-12">
-                @if (session('success'))
-                    <div class="border rounded text-center py-2 bg-green-500 mt-1 text-white">
-                        <span>{{ session('success') }}</span></div>
-                @endif
-            </div>
             <div class="col-span-12">
                 @error('payment_method')
                     <div class="text-white text-center p-3 mt-2 font-semibold text-lg bg-red-600 border rounded-lg">
@@ -120,8 +114,8 @@
                                 </tr>
                                 <tr class="border-b-2 border-gray-500">
                                     <td id="productStock" colspan="4" class="text-right">Stock:
-                                        {{ $cart->productVariation['quantity'] }}</td>
-                                    <td id="cartPrice" colspan="2" class="text-right italic">
+                                        {{ $cart->productVariation['stock'] }}</td>
+                                    <td id="cartPrice" colspan="2" class="text-right italic px-2">
                                         Rs. {{ $cart->quantity }} X {{ $cart->productVariation['price'] }} = Rs.
                                         {{ $cart->productVariation['price'] * $cart->quantity }}
                                     </td>

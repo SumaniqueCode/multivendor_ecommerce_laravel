@@ -174,6 +174,22 @@
   </section>
 
   <section class="mainContent">
+    <?php if(session('success')): ?>
+    <div id="notification" class="border rounded text-center py-2 bg-green-500 mt-1 text-white w-max absolute right-0.5 top-16 px-5 py-2 transition ease-in-out duration-300">
+      <span><?php echo e(session('success'), false); ?></span>
+    </div>
+    <?php endif; ?>
+    <?php if(session('error')): ?>
+      <div id="notification" class="border rounded text-center py-2 bg-red-500 mt-1 text-white w-max absolute right-0.5 top-16 px-5 py-2 transition ease-in-out duration-300">
+          <span><?php echo e(session('error'), false); ?></span>
+      </div>
+    <?php endif; ?>
+
+    <script>
+      setTimeout(() => {
+        document.getElementById('notification').classList.add('hidden');
+      }, 4000);
+    </script>
     <?php echo $__env->yieldContent('content'); ?>
   </section>
 

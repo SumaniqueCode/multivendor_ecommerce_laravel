@@ -1,18 +1,6 @@
 @extends('User.Layout.layout')
 @section('content')
     <div class="mx-5">
-        <div class="col-span-12">
-            @if (session('success'))
-                <div class="border rounded text-center py-2 bg-green-500 mt-1 text-white">
-                    <span>{{ session('success') }}</span>
-                </div>
-            @endif
-            @if (session('error'))
-            <div class="border rounded text-center py-2 bg-red-500 mt-1 text-white">
-                <span>{{ session('error') }}</span>
-            </div>
-        @endif
-        </div>
         <div class="overflow-x-auto shadow-md sm:rounded-lg mx-12 my-2 border-4 border-indigo-800">
             <table
                 class="text-center w-full text-sm rtl:text-right text-blue-100 dark:text-blue-100 border-separate border-spacing-1">

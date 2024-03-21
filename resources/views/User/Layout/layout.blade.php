@@ -171,6 +171,22 @@
   </section>
 
   <section class="mainContent">
+    @if(session('success'))
+    <div id="notification" class="border rounded text-center py-2 bg-green-500 mt-1 text-white w-max absolute right-0.5 top-16 px-5 py-2 transition ease-in-out duration-300">
+      <span>{{ session('success') }}</span>
+    </div>
+    @endif
+    @if (session('error'))
+      <div id="notification" class="border rounded text-center py-2 bg-red-500 mt-1 text-white w-max absolute right-0.5 top-16 px-5 py-2 transition ease-in-out duration-300">
+          <span>{{ session('error') }}</span>
+      </div>
+    @endif
+
+    <script>
+      setTimeout(() => {
+        document.getElementById('notification').classList.add('hidden');
+      }, 4000);
+    </script>
     @yield('content')
   </section>
 
