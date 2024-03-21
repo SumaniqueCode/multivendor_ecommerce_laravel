@@ -16,7 +16,8 @@ class CartController extends Controller
         $productVariation = ProductVariation::where('id', $request->id)->first();
         if ($request->quantity == "") {
             $quantity = 1;
-        } else {
+        }
+        else {
             $quantity = $request->quantity;
         }
         if ($cart) {
@@ -32,7 +33,9 @@ class CartController extends Controller
         } else {
             if ($quantity > $productVariation->stock) {
                 return back()->withErrors(["quantity" => "Insufficient product in stock"]);
-            } else {
+            }if($quantity <=0){
+                return back()->withErrors(["quantity" =>  "Quantity cannot be ".$request->quantity]);
+            }else {
                 $new_cart = new Cart;
                 $new_cart->create([
                     'user_id' => auth()->user()->id,
@@ -56,7 +59,9 @@ class CartController extends Controller
         }
         if ($quantity > $productVariation->stock) {
             return response()->json(['message' => 'Cart Quantity Exceed the product quantity'], 422);
-        } else {
+        }if($quantity <=0){
+            return response()->json(['message' =>  "Quantity cannot be ".$request->quantity], 422);
+        }else {
             $cart->update(['quantity' => $quantity]);
             // return back()->with('success', 'cart updated successfully');
             return response()->json(['message' => 'Quantity updated successfully', 'cart' => $cart], 201);

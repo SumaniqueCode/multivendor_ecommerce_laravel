@@ -33,11 +33,11 @@
             });
 
             //for updating cart value
-            $("#updatequantity").on('input', function() {
-                var newQuantity = document.getElementById("updatequantity").value;
-                var cartData = document.getElementById("cartData").value;
-                console.log("Cart data: ", cartData);
+            $("#updatequantity").on('change', function() {
+                var newQuantity = $(this).val();
+                var cartData = $(this).closest('tr').find('.cartData').val();
                 var cart = JSON.parse(cartData).cart;
+                console.log(cart);
                 var productVariation = JSON.parse(cartData).product;
                 var cartPrice = document.getElementById("cartPrice");
                 if (newQuantity > productVariation.stock) {
@@ -71,12 +71,6 @@
 
     <div class="mx-5">
         <div class="grid grid-cols-12">
-            <div class="col-span-12">
-                <?php if(session('success')): ?>
-                    <div class="border rounded text-center py-2 bg-green-500 mt-1 text-white">
-                        <span><?php echo e(session('success'), false); ?></span></div>
-                <?php endif; ?>
-            </div>
             <div class="col-span-12">
                 <?php $__errorArgs = ['payment_method'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -135,8 +129,8 @@ unset($__errorArgs, $__bag); ?>
                                 </tr>
                                 <tr class="border-b-2 border-gray-500">
                                     <td id="productStock" colspan="4" class="text-right">Stock:
-                                        <?php echo e($cart->productVariation['quantity'], false); ?></td>
-                                    <td id="cartPrice" colspan="2" class="text-right italic">
+                                        <?php echo e($cart->productVariation['stock'], false); ?></td>
+                                    <td id="cartPrice" colspan="2" class="text-right italic px-2">
                                         Rs. <?php echo e($cart->quantity, false); ?> X <?php echo e($cart->productVariation['price'], false); ?> = Rs.
                                         <?php echo e($cart->productVariation['price'] * $cart->quantity, false); ?>
 

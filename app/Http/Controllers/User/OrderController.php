@@ -31,7 +31,9 @@ class OrderController extends Controller
                 $productVariation = ProductVariation::find($request->product_variation_id);
                 if ($quantity > $productVariation->stock) {
                     return back()->withErrors(["quantity" => "Insufficient product in stock"]);
-                } else {
+                }if($request->quantity <=0){
+                    return back()->withErrors(["quantity" =>  "Quantity cannot be ". $request->quantity]);
+                }else {
                     $old_cart = Cart::where('product_variation_id', $request->product_variation_id)->where('user_id', auth()->user()->id)->exists();
                     if ($old_cart) {
                         $cart = Cart::where('product_variation_id', $request->product_variation_id)->where('user_id', auth()->user()->id)->first();
