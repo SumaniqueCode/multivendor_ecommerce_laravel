@@ -1,4 +1,4 @@
-@extends('User.Layout.layout')
+@extends('layouts.layout')
 @section('content')
     <script>
         $(document).ready(function() {
@@ -40,10 +40,6 @@
                 var cart = JSON.parse(cartData).cart;
                 var productVariation = JSON.parse(cartData).product;
                 var cartPrice = document.getElementById("cartPrice");
-                if (newQuantity > productVariation.stock) {
-                    document.getElementById("cartQuantityError") =
-                        "Cart Quantity Exceed the product quantity";
-                }
                 $.ajax({
                     url: '/update-cart',
                     type: 'post',

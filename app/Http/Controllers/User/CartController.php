@@ -58,7 +58,7 @@ class CartController extends Controller
             $quantity = $request->quantity;
         }
         if ($quantity > $productVariation->stock) {
-            return response()->json(['message' => 'Cart Quantity Exceed the product quantity'], 422);
+            return response()->json(['message' => "Cart Quantity Exceed the product quantity"], 422);
         }if($quantity <=0){
             return response()->json(['message' =>  "Quantity cannot be ".$request->quantity], 422);
         }else {

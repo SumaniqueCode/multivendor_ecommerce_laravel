@@ -1,8 +1,4 @@
-<?php if(Auth()->user()->role == "User"): ?>
 
-<?php else: ?>
-    
-<?php endif; ?>
 
 <?php $__env->startSection('content'); ?>
 

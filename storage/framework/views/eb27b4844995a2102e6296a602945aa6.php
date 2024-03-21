@@ -61,11 +61,12 @@
 </head>
 
 <body class="flex flex-col min-h-screen">
+  <?php 
+    use App\Models\User\Cart;
+    $carts = Cart::where('user_id', auth()->user()->id)->get();
+  ?>
+  <?php if(auth()->user()->role=="User"): ?>
   <section class="navbar">
-    <?php 
-      use App\Models\User\Cart;
-      $carts = Cart::where('user_id', auth()->user()->id)->get();
-    ?>
     
     <div class="bg-gradient-to-l from-purple-700 via-blue-600 to-blue-400">
       <div class="container mx-auto relative flex items-center p-2 text-lg">
@@ -172,6 +173,55 @@
     </div>
     
   </section>
+  <?php else: ?>
+  <section class="navbar">
+    
+    <div class="bg-gradient-to-l from-purple-700 via-blue-600 to-blue-400">
+      <div class="container mx-auto relative flex items-center p-2 text-lg">
+        <div class="flex items-center mx-8">
+          <a href="/seller" class="logo"><img class="w-12" src=<?php echo e("/Images/System/logo.png", false); ?> alt="Logo" /></a>
+        </div>
+        <div class="border rounded bg-white">
+          <form class="form" action="">
+            <?php echo csrf_field(); ?>
+            <div class="flex">
+              <input type="text" name="" id="" class="me-4 px-2 text-sm rounded border-1 border-white focus:ring-blue-500 focus:border-blue-500" placeholder="Search Products">
+              <a href=""><img src="<?php echo e("/Images/System/searchIcon.png", false); ?>" class="w-8 mx-2"></a>
+            </div>
+          </form>
+        </div>
+        
+        <div class="hidden lg:flex space-x-4 mx-4 gap-1">
+          <a href="/seller"
+            class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Home</a>
+          <a href="/seller/products" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Products</a>
+          <a href="/seller/orders" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Orders</a>
+        </div>
+        <div class="hidden lg:flex space-x-4 ms-auto me-10">
+          <a href="/seller/profile" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 my-auto p-1 rounded">Profile</a>
+        </div>
+        
+
+        
+        <div class="flex items-center lg:hidden relative ms-auto z-50 lg:me-10">
+          <a href="/seller/profile" class="text-white hover:bg-white hover:text-black hover:font-bold mx-2 p-1 rounded">Profile</a>
+          <button id="toggleDropdown" class="text-white ml-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 17 14" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
+            </svg>
+          </button>
+          <div id="dropdownMenu" class="absolute w-72 top-full right-0 mt-4 bg-blue-600 border border-white p-2 rounded-lg shadow-md">
+            <a href="/seller/dashboard" class="block text-white hover:bg-white hover:text-black hover:font-bold p-2 rounded">Home </a>
+            <a href="/seller/products" class="block border-t-2 text-white hover:bg-white hover:text-black hover:font-bold p-2 rounded">Products</a>
+            <a href="/seller/orders" class="block border-t-2 text-white hover:bg-white hover:text-black hover:font-bold p-2 rounded">Orders</a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+  </section>
+  <?php endif; ?>
 
   <section class="mainContent">
     <?php if(session('success')): ?>

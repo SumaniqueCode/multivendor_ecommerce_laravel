@@ -1,4 +1,4 @@
-@extends('Seller.Layout.layout')
+@extends('layouts.layout')
 @section('content')
     <script>
         $(document).ready(function() {
