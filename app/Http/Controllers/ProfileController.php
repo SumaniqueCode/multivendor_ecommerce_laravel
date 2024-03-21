@@ -26,11 +26,7 @@ class ProfileController extends Controller
 
     public function userProfile()
     {
-        if (Auth()->user()->role == "User") {
-            return view('User.profile');
-        } else {
-            return view('Seller.profile');
-        }
+        return view('profile');
     }
 
     public function editUser()

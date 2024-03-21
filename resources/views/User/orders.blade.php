@@ -1,4 +1,4 @@
-@extends('User.Layout.layout')
+@extends('layouts.layout')
 @section('content')
     <div class="mx-5">
         <div class="overflow-x-auto shadow-md sm:rounded-lg mx-12 my-2 border-4 border-indigo-800">

@@ -35,15 +35,11 @@
             //for updating cart value
             $("#updatequantity").on('change', function() {
                 var newQuantity = $(this).val();
-                var cartData = $(this).closest('tr').find('.cartData').val();
+                var cartData = document.getElementById("cartData").value;
+                console.log("Cart data: ", cartData);
                 var cart = JSON.parse(cartData).cart;
-                console.log(cart);
                 var productVariation = JSON.parse(cartData).product;
                 var cartPrice = document.getElementById("cartPrice");
-                if (newQuantity > productVariation.stock) {
-                    document.getElementById("cartQuantityError") =
-                        "Cart Quantity Exceed the product quantity";
-                }
                 $.ajax({
                     url: '/update-cart',
                     type: 'post',
@@ -208,4 +204,4 @@ unset($__errorArgs, $__bag); ?>
     </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('User.Layout.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Visual Studio\VS Code Projects\Personal\Laravel\multi_vendor_ecommerce\resources\views/User/cart.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Visual Studio\VS Code Projects\Personal\Laravel\multi_vendor_ecommerce\resources\views/User/cart.blade.php ENDPATH**/ ?>
