@@ -118,8 +118,9 @@
                         </div>
                     </div>
                     <div class="mb-2 productDesc">
-                        <span class="text-md bg-gray-200 rounded px-2 py-1">{{ $product->description }}</span>
+                        <span id="smalldesc" class="text-md bg-gray-200 rounded px-2 py-1">{{ Str::limit($product->description, 400) }}</span>
                     </div>
+                    
                 </div>
                 <div class="cols-span-12">
                     <div class="flex">

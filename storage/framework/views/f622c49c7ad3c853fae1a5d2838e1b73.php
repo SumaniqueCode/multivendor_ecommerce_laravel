@@ -21,8 +21,8 @@ unset($__errorArgs, $__bag); ?>
                 <div class="w-full h-full hover:ms-1 hover:border-l-4 max-w-sm bg-white border-b-4 border-r-4 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="/get-product-details/<?php echo e($product->id, false); ?>">
                         <?php $__currentLoopData = json_decode($product->productVariation->first()['image']); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $productImage): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <img class="py-4 px-8 h-64 rounded-3xl mx-auto my-auto" src="<?php echo e(asset($productImage), false); ?>" alt="<?php echo e($product->name, false); ?>">                                                       
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <img class="py-12 px-3 h-64 rounded-3xl mx-auto my-auto" src="<?php echo e(asset($productImage), false); ?>" alt="<?php echo e($product->name, false); ?>">                                                       
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </a>
                     <div class="px-5 pb-5">
                         <a href="/get-product-details/<?php echo e($product->id, false); ?>">

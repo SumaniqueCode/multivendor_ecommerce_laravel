@@ -3,9 +3,6 @@
 
 <div class="">
     <div class="form my-8 grid grid-cols-12">
-        @if(session('success'))
-        <div class="border rounded text-center py-2 bg-green-500 mt-1 text-white"><span>{{ session('success') }}</span></div>
-        @endif
         <div class="col-span-12 mb-3">
             <form class="max-w-6xl mx-auto border-2 border-green-400 p-4 rounded-2xl" method="post" action="/product/update-product-variation/{{ $productVariation->id }}" enctype="multipart/form-data">
                 @csrf

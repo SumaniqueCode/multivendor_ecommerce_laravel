@@ -14,8 +14,8 @@
                 <div class="w-full h-full hover:ms-1 hover:border-l-4 max-w-sm bg-white border-b-4 border-r-4 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="/get-product-details/{{$product->id}}">
                         @foreach (json_decode($product->productVariation->first()['image']) as $productImage )
-                            <img class="py-4 px-8 h-64 rounded-3xl mx-auto my-auto" src="{{ asset($productImage) }}" alt="{{ $product->name }}">                                                       
-                        @endforeach
+                        <img class="py-12 px-3 h-64 rounded-3xl mx-auto my-auto" src="{{ asset($productImage) }}" alt="{{ $product->name }}">                                                       
+                    @endforeach
                     </a>
                     <div class="px-5 pb-5">
                         <a href="/get-product-details/{{$product->id}}">

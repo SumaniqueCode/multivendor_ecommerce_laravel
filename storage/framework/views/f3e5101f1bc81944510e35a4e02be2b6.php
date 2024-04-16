@@ -3,9 +3,6 @@
 
 <div class="">
     <div class="form my-8 grid grid-cols-12">
-        <?php if(session('success')): ?>
-        <div class="border rounded text-center py-2 bg-green-500 mt-1 text-white"><span><?php echo e(session('success'), false); ?></span></div>
-        <?php endif; ?>
         <div class="col-span-12 mb-3">
             <form class="max-w-6xl mx-auto border-2 border-green-400 p-4 rounded-2xl" method="post" action="/product/update-product-variation/<?php echo e($productVariation->id, false); ?>" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
@@ -131,4 +128,4 @@ unset($__errorArgs, $__bag); ?>
 </div>
 
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('Seller.Layout.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Visual Studio\VS Code Projects\Personal\Laravel\multi_vendor_ecommerce\resources\views/Seller/editProductVariation.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Visual Studio\VS Code Projects\Personal\Laravel\multi_vendor_ecommerce\resources\views/Seller/editProductVariation.blade.php ENDPATH**/ ?>

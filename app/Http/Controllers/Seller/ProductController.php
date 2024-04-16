@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function productValidator(array $productData){
         return Validator::make($productData,[
-            'name' => 'required|string|min:5|max:25',
+            'name' => 'required|string|min:5|max:50',
             'category_id' => 'required|integer',
             'description'=>'required|string|min:20|max:5000',
             'brand'=>'nullable|string|min:3|max:50',
@@ -27,7 +27,7 @@ class ProductController extends Controller
         $validator = $this->productValidator($productData);
         $imageArray = [];
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|min:5|max:25',
+            'name' => 'required|string|min:5|max:50',
             'category_id' => 'required|integer',
             'description'=>'required|string|min:20|max:5000',
             'brand'=>'nullable|string|min:3|max:50',

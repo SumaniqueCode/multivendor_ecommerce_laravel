@@ -27,7 +27,7 @@
                     text-decoration: none !important;
                 }
                 .gradient-bg{
-                   background: linear-gradient(to right, rgb(106, 171, 246), rgb(59, 130, 246), rgb(147, 51, 234));
+                   background: linear-gradient(to left, #9e33f0, #3144f6, #9e33f0);
                 }
             </style>
 </head>
