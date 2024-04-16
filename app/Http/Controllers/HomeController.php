@@ -24,11 +24,11 @@ class HomeController extends Controller
     public function index()
     {
         if (auth()->user()->role == 'User') {
-            return redirect('/dashboard');
+            return redirect()->route( 'user_dashboard' );
         }
         if (auth()->user()->role == 'Seller') {
-            return redirect('/seller');
+            return redirect()->route( 'seller_dashboard' );
         }
-        return redirect('/');
+        return view('welcome');
     }
 }

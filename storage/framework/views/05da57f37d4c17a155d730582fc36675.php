@@ -107,10 +107,7 @@ unset($__errorArgs, $__bag); ?>
                                             value="<?php echo e(json_encode(['cart' => $cart, 'product' => $cart->productVariation]), false); ?>"
                                             class="border rounded"></td>
                                     <td rowspan="2" class="">
-                                        <img class="rounded my-auto h-20 w-24 mx-2"
-                                            src=<?php echo e(asset(json_decode($cart->productVariation['image'])[0]), false); ?>
-
-                                            alt="">
+                                        <img class="rounded my-auto h-24 w-28 my-1 mx-2"src="<?php echo e(asset(json_decode($cart->productVariation['image'])[0]), false); ?>" alt="">
                                     </td>
                                     <td class="w-28"><?php echo e($cart->productVariation['name'], false); ?></td>
                                     <td class="flex gap-1 justify-end">

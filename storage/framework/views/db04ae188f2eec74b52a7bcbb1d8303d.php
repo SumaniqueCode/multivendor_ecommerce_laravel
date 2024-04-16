@@ -118,8 +118,9 @@
                         </div>
                     </div>
                     <div class="mb-2 productDesc">
-                        <span class="text-md bg-gray-200 rounded px-2 py-1"><?php echo e($product->description, false); ?></span>
+                        <span id="smalldesc" class="text-md bg-gray-200 rounded px-2 py-1"><?php echo e(Str::limit($product->description, 400), false); ?></span>
                     </div>
+                    
                 </div>
                 <div class="cols-span-12">
                     <div class="flex">
@@ -176,4 +177,4 @@ unset($__errorArgs, $__bag); ?>
     </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('User.Layout.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Visual Studio\VS Code Projects\Personal\Laravel\multi_vendor_ecommerce\resources\views/User/productDetails.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\Visual Studio\VS Code Projects\Personal\Laravel\multi_vendor_ecommerce\resources\views/User/productDetails.blade.php ENDPATH**/ ?>

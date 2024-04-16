@@ -9,6 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
   {{-- Khalti Payment script --}}
   <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
@@ -68,7 +69,7 @@
   @if (auth()->user()->role=="User")
   <section class="navbar">
     {{-- navbar starts from here --}}
-    <div class="bg-gradient-to-l from-purple-700 via-blue-600 to-blue-400">
+    <div class="bg-gradient-to-l from-purple-600 via-blue-700 to-purple-600">
       <div class="container mx-auto relative flex items-center p-2 text-lg">
         <div class="flex items-center mx-8">
           <a href="/dashboard" class="logo"><img class="w-12" src={{"/Images/System/logo.png"}} alt="Logo" /></a>
@@ -241,7 +242,7 @@
   </section>
 
   <section class="footer mt-auto">
-    <div class="bg-gradient-to-l from-purple-700 via-blue-600 to-blue-400 py-4 px-4 text-white  grid grid-cols-12">
+    <div class="bg-gradient-to-l from-purple-600 via-blue-700 to-purple-600 py-4 px-4 text-white  grid grid-cols-12">
       <div class="socialIcons col-span-12 sm:col-span-5 md:col-span-4 xl:col-span-3 mt-3">
         <div class="flex justify-center flex-col sm:flex-row">
         <a class="border rounded px-2 py-1 mx-1 hover:bg-blue-600 hover:border-white" href="/">About Us</a>
